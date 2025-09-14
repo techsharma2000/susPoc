@@ -1,1 +1,0 @@
-package com.sushil.poc.exception; public class LowerVersionException extends RuntimeException { public LowerVersionException(String msg) { super(msg); }}
