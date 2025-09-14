@@ -17,6 +17,7 @@ This project is a production-grade Spring Boot application for a trade store, de
 
 ## Request Flow
 
+
 ```
 Client (Postman/Frontend/Service)
 	-->  Controller (DTO & Validation)
