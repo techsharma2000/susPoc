@@ -69,8 +69,7 @@ __pycache__/
 # Postman
 *.postman_collection.json
 
+
 # Enterprise: ignore credentials, local configs, and generated files
-application-local.yml
-application-dev.yml
-*.local.properties
-*.bak
+application.yml
+
