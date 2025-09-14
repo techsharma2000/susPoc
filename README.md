@@ -3,12 +3,13 @@
 ## Configuration & Secrets
 
 - All sensitive values (DB passwords, API keys, etc.) should be provided via environment variables or a local `application.yml` that is not committed to the repository.
-- A sample config file is provided as `src/main/resources/application-template.yml`. Copy this to `application.yml` and fill in your real values locally.
+- A template config file is provided as `src/main/resources/application-template.yml`. Copy this to `application.yml` and fill in your real values locally.
 - For CI/CD, use GitHub Actions secrets or your CI tool’s secret manager.
 
 - File has been shared to HR as part of inital communcation. 
 
 # Sushil POC Trade Store
+
 
 ## Overview
 This project is a production-grade Spring Boot application for a trade store, designed to demonstrate best practices for banking/fintech backend systems. It features dual persistence (SQL & NoSQL), streaming/queueing, robust error handling, TDD, and a CI/CD pipeline. The codebase is modular, extensible, and ready for real-world banking requirements.
