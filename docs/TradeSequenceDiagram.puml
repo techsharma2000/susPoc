@@ -1,0 +1,17 @@
+@startuml
+actor Sender
+participant "TradeController" as Controller
+participant "TradeService" as Service
+participant "TradeRepository" as SQLRepo
+participant "NoSQLRepository" as NoSQLRepo
+
+Sender -> Controller: POST /api/trades
+Controller -> Service: validateAndStore(trade)
+Service -> SQLRepo: findByTradeIdAndVersion(tradeId, version)
+Service -> SQLRepo: saveOrUpdate(trade)
+Service -> NoSQLRepo: save(trade)
+Service -> Service: checkMaturityAndExpire(trade)
+Service -> SQLRepo: updateExpired(trade)
+Controller <-- Service: result
+Sender <-- Controller: response
+@enduml

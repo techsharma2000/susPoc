@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots clean install
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@v3
+        with:
+          project: 'Sushil POC Trade Store'
+          path: '.'
+          format: 'HTML'
+          out: 'dependency-check-report.html'
+
+      - name: Upload dependency check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: dependency-check-report.html
+
+      - name: Fail on critical/blocker vulnerabilities
+        run: |
+          if grep -q 'CRITICAL\|BLOCKER' dependency-check-report.html; then
+            echo 'Critical or blocker vulnerabilities found! Failing build.'
+            exit 1
+          fi
